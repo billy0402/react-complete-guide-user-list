@@ -2,29 +2,32 @@ import { SyntheticEvent, useState } from 'react';
 
 import Button from '@components/ui/Button';
 import Card from '@components/ui/Card';
+import { User } from '@models/User';
 
-const AddUser = () => {
-  const [username, setUsername] = useState('');
+type AddUserProps = {
+  onAddUser: (user: User) => void;
+};
+
+const AddUser = ({ onAddUser }: AddUserProps) => {
+  const [name, setName] = useState('');
   const [age, setAge] = useState('');
 
   const addUserHandler = (event: SyntheticEvent) => {
     event.preventDefault();
-    if (!username.trim() || !age.trim()) {
+    if (!name.trim() || !age.trim()) {
       return;
     }
     if (+age < 1) {
       return;
     }
 
-    console.log(username, age);
-    setUsername('');
+    onAddUser({ id: Math.random().toString(), name, age: +age });
+    setName('');
     setAge('');
   };
 
-  const usernameChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setUsername(event.target.value);
+  const nameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
   };
 
   const ageChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,12 +37,12 @@ const AddUser = () => {
   return (
     <Card className='input'>
       <form onSubmit={addUserHandler}>
-        <label htmlFor='username'>Username</label>
+        <label htmlFor='name'>Name</label>
         <input
-          id='username'
+          id='name'
           type='text'
-          value={username}
-          onChange={usernameChangeHandler}
+          value={name}
+          onChange={nameChangeHandler}
         />
         <label htmlFor='age'>Age (Years)</label>
         <input id='age' type='number' value={age} onChange={ageChangeHandler} />
