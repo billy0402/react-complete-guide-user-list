@@ -4,12 +4,13 @@ import Card from '@components/ui/Card';
 type ErrorModalProps = {
   title: string;
   message: string;
+  onConfirm?: () => void;
 };
 
-const ErrorModal = ({ title, message }: ErrorModalProps) => {
+const ErrorModal = ({ title, message, onConfirm }: ErrorModalProps) => {
   return (
     <>
-      <div className='backdrop' />
+      <div className='backdrop' onClick={onConfirm} />
       <Card className='modal'>
         <header className='header'>
           <h2>{title}</h2>
@@ -18,7 +19,7 @@ const ErrorModal = ({ title, message }: ErrorModalProps) => {
           <p>{message}</p>
         </main>
         <footer className='actions'>
-          <Button>Okay</Button>
+          <Button onClick={onConfirm}>Okay</Button>
         </footer>
       </Card>
     </>
