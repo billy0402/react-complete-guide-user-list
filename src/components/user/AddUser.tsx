@@ -2,6 +2,7 @@ import { SyntheticEvent, useState } from 'react';
 
 import Button from '@components/ui/Button';
 import Card from '@components/ui/Card';
+import ErrorModal from '@components/ui/ErrorModal';
 import { User } from '@models/User';
 
 type AddUserProps = {
@@ -35,20 +36,28 @@ const AddUser = ({ onAddUser }: AddUserProps) => {
   };
 
   return (
-    <Card className='input'>
-      <form onSubmit={addUserHandler}>
-        <label htmlFor='name'>Name</label>
-        <input
-          id='name'
-          type='text'
-          value={name}
-          onChange={nameChangeHandler}
-        />
-        <label htmlFor='age'>Age (Years)</label>
-        <input id='age' type='number' value={age} onChange={ageChangeHandler} />
-        <Button type='submit'>Add User</Button>
-      </form>
-    </Card>
+    <>
+      <ErrorModal title='An error occurred!' message='Something went wrong!' />
+      <Card className='input'>
+        <form onSubmit={addUserHandler}>
+          <label htmlFor='name'>Name</label>
+          <input
+            id='name'
+            type='text'
+            value={name}
+            onChange={nameChangeHandler}
+          />
+          <label htmlFor='age'>Age (Years)</label>
+          <input
+            id='age'
+            type='number'
+            value={age}
+            onChange={ageChangeHandler}
+          />
+          <Button type='submit'>Add User</Button>
+        </form>
+      </Card>
+    </>
   );
 };
 
