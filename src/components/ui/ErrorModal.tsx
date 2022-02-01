@@ -1,5 +1,7 @@
-import Button from '@components/ui/Button';
-import Card from '@components/ui/Card';
+import ReactDOM from 'react-dom';
+
+import Backdrop from '@components/ui/Backdrop';
+import ModalOverlay from './ModalOverlay';
 
 type ErrorModalProps = {
   title: string;
@@ -10,18 +12,14 @@ type ErrorModalProps = {
 const ErrorModal = ({ title, message, onConfirm }: ErrorModalProps) => {
   return (
     <>
-      <div className='backdrop' onClick={onConfirm} />
-      <Card className='modal'>
-        <header className='header'>
-          <h2>{title}</h2>
-        </header>
-        <main className='content'>
-          <p>{message}</p>
-        </main>
-        <footer className='actions'>
-          <Button onClick={onConfirm}>Okay</Button>
-        </footer>
-      </Card>
+      {ReactDOM.createPortal(
+        <Backdrop className='backdrop' onConfirm={onConfirm} />,
+        document.getElementById('backdrop-root') as HTMLElement,
+      )}
+      {ReactDOM.createPortal(
+        <ModalOverlay title={title} message={message} onConfirm={onConfirm} />,
+        document.getElementById('overlay-root') as HTMLElement,
+      )}
     </>
   );
 };
